@@ -224,6 +224,7 @@ public:
     speex_resample(resampling_in_buffer.data(), &in_len,
                    resampling_out_buffer.data(), &out_len);
 
+    // FIXME:
     assert(out_len == output_frame_count);
 
     /* This shifts back any unresampled samples to the beginning of the input

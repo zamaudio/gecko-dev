@@ -4183,6 +4183,23 @@ fi
 AC_SUBST(MOZ_WEBM_ENCODER)
 
 dnl ==================================
+dnl = Check JACK availability on Linux
+dnl ==================================
+
+MOZ_ARG_ENABLE_BOOL(jack,
+[  --enable-jack          Enable JACK support (experimental)],
+   MOZ_JACK=1,
+   MOZ_JACK=)
+
+if test -n "$MOZ_JACK"; then
+    PKG_CHECK_MODULES(MOZ_JACK, jack, ,
+         [echo "$MOZ_JACK_PKG_ERRORS"
+          AC_MSG_ERROR([JACK audio backend requires jack libraries])])
+fi
+
+AC_SUBST(MOZ_JACK)
+
+dnl ==================================
 dnl = Check alsa availability on Linux
 dnl ==================================
 

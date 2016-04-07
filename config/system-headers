@@ -569,6 +569,8 @@ iostream
 iostream.h
 istream
 iterator
+jack/jack.h
+jack/statistics.h
 JavaControl.h
 JavaEmbedding/JavaControl.h
 JavaVM/jni.h
