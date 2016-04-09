@@ -29,9 +29,6 @@ if CONFIG['MOZ_PULSEAUDIO']:
         DEFINES['DISABLE_LIBPULSE_DLOPEN'] = True
 
 if CONFIG['MOZ_JACK']:
-    CXXFLAGS += ['-fPIC']
-    CFLAGS += ['-fPIC']
-    OS_LIBS += ['-ljack']
     SOURCES += [
         'cubeb_jack.cpp',
         'cubeb_resampler.cpp',
