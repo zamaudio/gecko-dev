@@ -8,6 +8,7 @@ cp $1/src/cubeb_alsa.c src
 cp $1/src/cubeb_winmm.c src
 cp $1/src/cubeb_audiounit.c src
 cp $1/src/cubeb_pulse.c src
+cp $1/src/cubeb_jack.cpp src
 cp $1/src/cubeb_sndio.c src
 cp $1/src/cubeb_opensl.c src
 cp $1/src/cubeb_audiotrack.c src
