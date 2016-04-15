@@ -435,6 +435,19 @@ int32_t AudioDeviceModuleImpl::CreatePlatformSpecificObjects()
     }
 #endif  // if defined(WEBRTC_DUMMY_AUDIO_BUILD)
 
+#if 1 // XXX FIXME: make dependent on --enable-jack
+    // Create *Dummy Audio* implementation
+    audioLayer = kDummyAudio;
+    ptrAudioDevice = new AudioDeviceDummy(Id());
+    WEBRTC_TRACE(kTraceInfo, kTraceAudioDevice, _id, "Dummy Audio APIs will be utilized");
+    printf("Dummy audio init\n");
+
+    if (ptrAudioDevice != NULL)
+    {
+        ptrAudioDeviceUtility = new AudioDeviceUtilityDummy(Id());
+    }
+#endif
+
     if (ptrAudioDevice == NULL)
     {
         WEBRTC_TRACE(kTraceCritical, kTraceAudioDevice, _id, "unable to create the platform specific audio device implementation");
