@@ -13,16 +13,16 @@ SOURCES += [
     'cubeb_panner.cpp'
 ]
 
+if CONFIG['MOZ_PULSEAUDIO'] or CONFIG['MOZ_JACK'] or CONFIG['OS_TARGET'] == 'Darwin' or CONFIG['OS_TARGET'] == 'WINNT' or CONFIG['OS_TARGET'] == 'Android':
+    SOURCES += [
+        'cubeb_resampler.cpp',
+    ]
+
 if CONFIG['MOZ_ALSA']:
     SOURCES += [
         'cubeb_alsa.c',
     ]
     DEFINES['USE_ALSA'] = True
-
-if CONFIG['MOZ_PULSEAUDIO'] or CONFIG['MOZ_JACK']:
-    SOURCES += [
-        'cubeb_resampler.cpp',
-    ]
 
 if CONFIG['MOZ_PULSEAUDIO']:
     SOURCES += [
@@ -32,7 +32,7 @@ if CONFIG['MOZ_PULSEAUDIO']:
     if CONFIG['MOZ_WIDGET_TOOLKIT'] == 'gonk':
         DEFINES['DISABLE_LIBPULSE_DLOPEN'] = True
 
-if CONFIG['MOZ_JACK']:
+if CONFIG['MOZ_JACK'] and not CONFIG['OS_TARGET'] == 'WINNT':
     SOURCES += [
         'cubeb_jack.cpp',
     ]
@@ -50,7 +50,6 @@ if CONFIG['OS_ARCH'] == 'OpenBSD':
 if CONFIG['OS_TARGET'] == 'Darwin':
     SOURCES += [
         'cubeb_audiounit.c',
-        'cubeb_resampler.cpp'
     ]
     if CONFIG['MOZ_WIDGET_TOOLKIT'] == 'cocoa':
         SOURCES += [
@@ -60,7 +59,6 @@ if CONFIG['OS_TARGET'] == 'Darwin':
 
 if CONFIG['OS_TARGET'] == 'WINNT':
     SOURCES += [
-        'cubeb_resampler.cpp',
         'cubeb_wasapi.cpp',
         'cubeb_winmm.c',
     ]
@@ -71,7 +69,6 @@ if CONFIG['OS_TARGET'] == 'WINNT':
 
 if CONFIG['OS_TARGET'] == 'Android':
     SOURCES += ['cubeb_opensl.c']
-    SOURCES += ['cubeb_resampler.cpp']
     DEFINES['USE_OPENSL'] = True
     if CONFIG['MOZ_WIDGET_TOOLKIT'] != 'gonk':
         SOURCES += [

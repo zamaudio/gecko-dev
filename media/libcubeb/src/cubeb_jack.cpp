@@ -6,23 +6,28 @@
  * This program is made available under an ISC-style license.  See the
  * accompanying file LICENSE for details.
  */
+
+/* Windows+JACK build can't compile due to missing pthread.h (disable for now) */
+#if defined(__WIN32__) || defined(_WIN32) || defined(_WIN64)
+# include <windows.h>
+#else
+# include <dlfcn.h>
+# include <sys/time.h>
+# include <poll.h>
+# include <unistd.h>
+#endif
 #include <algorithm>
-#include <dlfcn.h>
 #include <limits>
 #include <stdio.h>
-#include <sys/time.h>
 #include <assert.h>
 #include <string.h>
 #include <limits.h>
-#include <poll.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <math.h>
 #include "cubeb/cubeb.h"
 #include "cubeb-internal.h"
 #include "cubeb_resampler.h"
-
 #include "jack/jack.h"
 #include "jack/statistics.h"
 
@@ -195,16 +200,17 @@ static int
 load_jack_lib(cubeb * context)
 {
 #ifdef __APPLE__
-  context->libjack = dlopen("libjack.0.dylib", RTLD_LAZY);
-  context->libjack = dlopen("/usr/local/lib/libjack.0.dylib", RTLD_LAZY);
+  context->libjack = dlopen("libjack.dylib", RTLD_NOW | RTLD_LOCAL);
+  if (!context->libjack)
+    context->libjack = dlopen("/usr/local/lib/libjack.dylib", RTLD_NOW | RTLD_LOCAL);
 #elif defined(__WIN32__)
-# ifdef _WIN64
-   context->libjack = LoadLibrary("libjack64.dll");
+# if defined(_WIN64)
+  context->libjack = LoadLibraryA("libjack64.dll");
 # else
-   context->libjack = LoadLibrary("libjack.dll");
+  context->libjack = LoadLibraryA("libjack.dll");
 # endif
 #else
-  context->libjack = dlopen("libjack.so.0", RTLD_LAZY);
+  context->libjack = dlopen("libjack.so", RTLD_NOW | RTLD_LOCAL);
 #endif
   if (!context->libjack) {
     return CUBEB_ERROR;
