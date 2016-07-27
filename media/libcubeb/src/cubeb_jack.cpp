@@ -6,9 +6,6 @@
  * This program is made available under an ISC-style license.  See the
  * accompanying file LICENSE for details.
  */
-#define _DEFAULT_SOURCE
-#define _BSD_SOURCE
-#define _POSIX_SOURCE
 #include <algorithm>
 #include <dlfcn.h>
 #include <limits>
