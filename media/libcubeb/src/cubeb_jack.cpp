@@ -26,8 +26,8 @@
 #include "cubeb-internal.h"
 #include "cubeb_resampler.h"
 
-#include <jack/jack.h>
-#include <jack/statistics.h>
+#include "jack/jack.h"
+#include "jack/statistics.h"
 
 #define JACK_API_VISIT(X)                       \
   X(jack_activate)                              \
